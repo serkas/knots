@@ -12,6 +12,16 @@
 <p ng-bind="desc"></p>
 
 <hr>
+<div>
+    <label>
+        Title <input type="text" ng-model="new.title">
+    </label>
+</div>
+<label>
+    Text <textarea ng-model="new.text"></textarea>
+</label>
+<button ng-click="postNew()">Post</button>
+
 
 </body>
 </html>

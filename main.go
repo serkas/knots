@@ -2,17 +2,16 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"knots/handlers"
 )
+
 
 func main() {
 	r := gin.Default()
 	r.Static("/assets", "./assets")
 
-	r.GET("/", index)
+	r.GET("/", handlers.Index)
+	r.POST("/new", handlers.NewKnot)
 
 	r.Run(":8080")
-}
-
-func index(c *gin.Context) {
-	c.File("./templates/index.html")
 }
