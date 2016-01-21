@@ -2,7 +2,7 @@ var app = angular.module('KnotsApp', []);
 var postConfig = {headers: {'Content-Type': "application/json", 'Accept': "application/json"}};
 
 app.controller('MainCtr', function($scope, $http) {
-    $scope.new = initNewPost();
+    initEmptyKnot($scope);
     $scope.knots = [];
 
     getKnots($http, $scope);
@@ -10,6 +10,7 @@ app.controller('MainCtr', function($scope, $http) {
     $scope.postNew = function() {
         $http.post('/new', JSON.stringify($scope.new), postConfig).then(function(){
             console.log('success');
+            initEmptyKnot($scope);
             getKnots($http, $scope);
         });
     };
@@ -23,6 +24,6 @@ function getKnots($http, $scope) {
     });
 }
 
-function initNewPost(){
-    return {text: '', title: ''};
+function initEmptyKnot($scope){
+    $scope.new = {text: '', title: ''};
 }

@@ -3,8 +3,8 @@ package handlers
 import (
 	"log"
 	"github.com/gin-gonic/gin"
-	"gopkg.in/mgo.v2/bson"
 	"knots/models"
+	"time"
 )
 
 func (env Env) NewKnot(c *gin.Context) {
@@ -12,6 +12,7 @@ func (env Env) NewKnot(c *gin.Context) {
 	c.BindJSON(&new)
 
 	if new.Validate() {
+		new.Created = time.Now().Unix()
 		collection := env.db.C("knots")
 		err := collection.Insert(&new)
 		if err != nil {
@@ -33,7 +34,7 @@ func (env Env) NewKnot(c *gin.Context) {
 func (env Env) AllKnot(c *gin.Context) {
 	collection := env.db.C("knots")
 	var result []models.Knot
-	err := collection.Find(bson.M{}).All(&result)
+	err := collection.Find(nil).Sort("-created").All(&result)
 	if err != nil {
 		log.Fatal(err)
 	} else {
