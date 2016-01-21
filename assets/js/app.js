@@ -2,8 +2,6 @@ var app = angular.module('KnotsApp', []);
 var postConfig = {headers: {'Content-Type': "application/json", 'Accept': "application/json"}};
 
 app.controller('MainCtr', function($scope, $http) {
-    $scope.desc = 'Knots of wisdom';
-
     $scope.new = initNewPost();
 
     $scope.postNew = function() {
