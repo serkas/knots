@@ -8,10 +8,15 @@ import (
 
 func main() {
 	r := gin.Default()
-	r.Static("/assets", "./assets")
 
+	env := handlers.InitEnv()
+	defer env.Destroy()
+
+	r.Static("/assets", "./assets")
 	r.GET("/", handlers.Index)
-	r.POST("/new", handlers.NewKnot)
+	r.GET("/knots", env.AllKnot)
+	r.POST("/new", env.NewKnot)
 
 	r.Run(":8080")
 }
+

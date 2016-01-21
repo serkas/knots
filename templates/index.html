@@ -21,6 +21,11 @@
 </label>
 <button ng-click="postNew()">Post</button>
 
+<hr>
+<div ng-repeat="knot in knots">
+    <h4>{{ knot.title }}</h4>
+    <p>{{ knot.text }}</p>
+</div>
 
 </body>
 </html>
