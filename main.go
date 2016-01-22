@@ -15,7 +15,8 @@ func main() {
 	r.Static("/assets", "./assets")
 	r.GET("/", handlers.Index)
 	r.GET("/knots", env.AllKnot)
-	r.POST("/new", env.NewKnot)
+	r.POST("/knots", env.NewKnot)
+	r.DELETE("/knots/:id", env.DeleteKnot)
 
 	r.Run(":8080")
 }

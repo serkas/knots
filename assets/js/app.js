@@ -8,13 +8,18 @@ app.controller('MainCtr', function($scope, $http) {
     getKnots($http, $scope);
 
     $scope.postNew = function() {
-        $http.post('/new', JSON.stringify($scope.new), postConfig).then(function(){
-            console.log('success');
+        $http.post('/knots', JSON.stringify($scope.new), postConfig).then(function(){
             initEmptyKnot($scope);
             getKnots($http, $scope);
         });
     };
 
+    $scope.remove = function(type, id) {
+        $http.delete('/knots/'+id, {}).then(function(){
+
+            getKnots($http, $scope);
+        });
+    };
 
 });
 

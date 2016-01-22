@@ -8,7 +8,7 @@
 </head>
 
 <body ng-controller="MainCtr"  class="ng-cloak">
-<h1>Knots</h1>
+<h1>X</h1>
 <hr>
 
 <div>
@@ -23,8 +23,8 @@
 
 <hr>
 <div ng-repeat="knot in knots">
-    <h4>{{ knot.title }}</h4>
-    <p>{{ knot.text }}</p>
+    <p><b>{{ knot.title }}</b> {{ knot.text }}</p>
+    <p><a ng-click="remove('knot', knot.id)">Remove</a></p>
 </div>
 
 </body>
