@@ -1,12 +1,10 @@
 package handlers
 
 import (
-	"log"
-	"github.com/gin-gonic/gin"
-	"knots/models"
-	"time"
 	"net/http"
+	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
+	"knots/models"
 )
 
 func (env Env) NewKnot(c *gin.Context) {
@@ -14,9 +12,8 @@ func (env Env) NewKnot(c *gin.Context) {
 	err := c.BindJSON(&new)
 
 	if err == nil && new.Validate() {
-		new.Created = time.Now().Unix()
-		collection := env.db.C("knots")
-		err := collection.Insert(&new)
+		err := new.Insert(env.db)
+
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, nil)
 		} else {
@@ -25,34 +22,33 @@ func (env Env) NewKnot(c *gin.Context) {
 				"title": new.Title,
 			})
 		}
-		return
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"status": false,
+			"error": "invalid_data",
+		})
 	}
-	c.JSON(200, gin.H{
-		"status": "invalid_data",
-	})
+
 
 }
 
 func (env Env) DeleteKnot(c *gin.Context) {
-	collection := env.db.C("knots")
-
 	id := c.Param("id")
 	if !bson.IsObjectIdHex(id) {
-		c.JSON(400, gin.H{
+		c.JSON(http.StatusBadRequest, gin.H{
 			"status": false,
 			"error": "id not valid",
 		})
 	}
 	mongoId := bson.ObjectIdHex(id)
+
+	collection := env.db.C("knots")
 	err := collection.RemoveId(mongoId)
 
 	if err != nil {
-		c.JSON(500, gin.H{
-			"status": false,
-			"error": err.Error(),
-		})
+		sendError(c, err)
 	} else {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"status": true,
 		})
 	}
@@ -63,11 +59,18 @@ func (env Env) AllKnot(c *gin.Context) {
 	var result []models.Knot
 	err := collection.Find(nil).Sort("-created").All(&result)
 	if err != nil {
-		log.Fatal(err)
+		sendError(c, err)
 	} else {
-		c.JSON(200, gin.H{
+		c.JSON(http.StatusOK, gin.H{
 			"status": true,
 			"knots": result,
 		})
 	}
+}
+
+func sendError(c *gin.Context, err error)  {
+	c.JSON(http.StatusInternalServerError, gin.H{
+		"status": false,
+		"error": err.Error(),
+	})
 }

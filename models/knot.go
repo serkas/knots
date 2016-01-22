@@ -1,6 +1,10 @@
 package models
 
-import "gopkg.in/mgo.v2/bson"
+import (
+	"time"
+	"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2"
+)
 
 type Knot struct {
 	Id      bson.ObjectId `json:"id"        bson:"_id,omitempty"`
@@ -11,4 +15,10 @@ type Knot struct {
 
 func (knot Knot) Validate() bool {
 	return knot.Text != "" && knot.Title != ""
+}
+
+func (knot Knot) Insert(db *mgo.Database) error {
+	knot.Created = time.Now().Unix()
+	collection := db.C("knots")
+	return collection.Insert(&knot)
 }
