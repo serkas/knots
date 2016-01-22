@@ -1,8 +1,11 @@
 package models
 
+import "gopkg.in/mgo.v2/bson"
+
 type Knot struct {
-	Text string `json:"text"`
-	Title string `json:"title"`
+	Id      bson.ObjectId `json:"id"        bson:"_id,omitempty"`
+	Text    string `json:"text"`
+	Title   string `json:"title"`
 	Created int64 `json:"created"`
 }
 

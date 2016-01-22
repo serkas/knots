@@ -5,28 +5,29 @@ import (
 	"github.com/gin-gonic/gin"
 	"knots/models"
 	"time"
+	"net/http"
 )
 
 func (env Env) NewKnot(c *gin.Context) {
 	var new models.Knot
-	c.BindJSON(&new)
+	err := c.BindJSON(&new)
 
-	if new.Validate() {
+	if err != nil && new.Validate() {
 		new.Created = time.Now().Unix()
 		collection := env.db.C("knots")
 		err := collection.Insert(&new)
 		if err != nil {
-			log.Fatal(err)
+			c.JSON(http.StatusInternalServerError, nil)
 		} else {
-			c.JSON(200, gin.H{
+			c.JSON(http.StatusOK, gin.H{
 				"status": "posted",
 				"title": new.Title,
 			})
-			return
 		}
+		return
 	}
 	c.JSON(200, gin.H{
-		"status": "entity_not_valid",
+		"status": "invalid_data",
 	})
 
 }
