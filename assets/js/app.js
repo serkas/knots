@@ -1,4 +1,4 @@
-var app = angular.module('KnotsApp', []);
+var app = angular.module('KnotsApp', ['ngSanitize',  'hc.marked']);
 var postConfig = {headers: {'Content-Type': "application/json", 'Accept': "application/json"}};
 
 app.controller('MainCtr', function($scope, $http) {
@@ -8,7 +8,9 @@ app.controller('MainCtr', function($scope, $http) {
     getKnots($http, $scope);
 
     $scope.postNew = function() {
-        $http.post('/knots', JSON.stringify($scope.new), postConfig).then(function(){
+        var knot = angular.copy($scope.new);
+        knot.raw = editor.value();
+        $http.post('/knots', JSON.stringify(knot), postConfig).then(function(){
             initEmptyKnot($scope);
             getKnots($http, $scope);
         });
@@ -16,7 +18,6 @@ app.controller('MainCtr', function($scope, $http) {
 
     $scope.remove = function(type, id) {
         $http.delete('/knots/'+id, {}).then(function(){
-
             getKnots($http, $scope);
         });
     };
@@ -30,5 +31,5 @@ function getKnots($http, $scope) {
 }
 
 function initEmptyKnot($scope){
-    $scope.new = {text: '', title: ''};
+    $scope.new = {raw: '', title: ''};
 }

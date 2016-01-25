@@ -8,13 +8,13 @@ import (
 
 type Knot struct {
 	Id      bson.ObjectId `json:"id"        bson:"_id,omitempty"`
-	Text    string `json:"text"`
+	Raw     string `json:"raw"`
 	Title   string `json:"title"`
 	Created int64 `json:"created"`
 }
 
 func (knot Knot) Validate() bool {
-	return knot.Text != "" && knot.Title != ""
+	return knot.Raw != "" && knot.Title != ""
 }
 
 func (knot Knot) Insert(db *mgo.Database) error {

@@ -2,14 +2,32 @@
 <head>
     <link href="/assets/bs/css/bootstrap.css" rel="stylesheet" media="all">
     <link href="/assets/bs/css/bootstrap-theme.css" rel="stylesheet" media="all">
+    <link href="/assets/md/simplemde.min.css" rel="stylesheet" media="all">
 
     <link href="/assets/css/main.css" rel="stylesheet" media="all">
 
     <script src="/assets/js/core/jquery-1.12.0.js"></script>
     <script src="/assets/bs/js/bootstrap.js"></script>
+    <script src="/assets/md/simplemde.min.js"></script>
+    <script src="/assets/md/marked.min.js"></script>
+
 
     <script src="/assets/js/core/angular.min.js"></script>
+    <script src="/assets/md/angular-marked.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-sanitize.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-interpolation-messageformat/2.7.2/angular-translate-interpolation-messageformat.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-cookie/2.7.2/angular-translate-storage-cookie.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.7.2/angular-translate-storage-local.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.7.2/angular-translate-loader-url.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.7.2/angular-translate-loader-static-files.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-handler-log/2.7.2/angular-translate-handler-log.js"></script>
+
+
+    <script src="/assets/js/theme.js"></script>
     <script src="/assets/js/app.js"></script>
+
 </head>
 
 <body ng-controller="MainCtr"  class="ng-cloak">
@@ -23,8 +41,8 @@
     <div class="col-lg-9 main">
         <article ng-repeat="knot in knots">
             <h3 class="title">{{ knot.title }}</h3>
+            <div marked="knots[$index]['raw']"></div>
 
-            {{ knot.text }}
             <p><a ng-click="remove('knot', knot.id)">Remove</a></p>
         </article>
     </div>
@@ -52,7 +70,7 @@
                     <input type="text" ng-model="new.title">
                 </div>
                 <div class="col-lg-12">
-                    <textarea class="editor" ng-model="new.text"></textarea>
+                    <textarea id="new-knot" class="editor"></textarea>
                 </div>
             </div>
             <div class="modal-footer">
