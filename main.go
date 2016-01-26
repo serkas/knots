@@ -18,6 +18,7 @@ func main() {
 	// Knots handlers
 	r.GET("/knots", env.AllKnot)
 	r.POST("/knots", env.NewKnot)
+	r.PUT("/knots/:id", env.UpdateKnot)
 	r.DELETE("/knots/:id", env.DeleteKnot)
 
 	r.Run(":8080")

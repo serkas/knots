@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 	"knots/models"
+	"fmt"
 )
 
 func (env Env) NewKnot(c *gin.Context) {
@@ -23,22 +24,41 @@ func (env Env) NewKnot(c *gin.Context) {
 			})
 		}
 	} else {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": false,
-			"error": "invalid_data",
-		})
+		sendBadRequest(c, fmt.Errorf("invalid_data"))
 	}
+}
 
+func (env Env) UpdateKnot(c *gin.Context) {
+	id := c.Param("id")
+	if !bson.IsObjectIdHex(id) {
+		sendBadRequest(c, fmt.Errorf("id_not_valid"))
+	}
+	mongoId := bson.ObjectIdHex(id)
+
+	var new models.Knot
+	var err error
+	err = c.BindJSON(&new)
+	if err == nil && new.Validate() {
+		collection := env.db.C("knots")
+		err = collection.UpdateId(mongoId, new)
+		if err != nil {
+			sendError(c, err)
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"status": true,
+			})
+		}
+
+	} else {
+		sendBadRequest(c, fmt.Errorf("invalid_data"))
+	}
 
 }
 
 func (env Env) DeleteKnot(c *gin.Context) {
 	id := c.Param("id")
 	if !bson.IsObjectIdHex(id) {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"status": false,
-			"error": "id not valid",
-		})
+		sendBadRequest(c, fmt.Errorf("id_not_valid"))
 	}
 	mongoId := bson.ObjectIdHex(id)
 
@@ -66,11 +86,4 @@ func (env Env) AllKnot(c *gin.Context) {
 			"knots": result,
 		})
 	}
-}
-
-func sendError(c *gin.Context, err error)  {
-	c.JSON(http.StatusInternalServerError, gin.H{
-		"status": false,
-		"error": err.Error(),
-	})
 }

@@ -14,7 +14,7 @@ type Knot struct {
 }
 
 func (knot Knot) Validate() bool {
-	return knot.Raw != "" && knot.Title != ""
+	return knot.Raw != ""
 }
 
 func (knot Knot) Insert(db *mgo.Database) error {

@@ -6,6 +6,10 @@
     color: brown;
     font-size: 28px;
     margin: 10px;
+    cursor: pointer;
+}
+h1:hover {
+    text-decoration: none;
 }
 
 .main {
