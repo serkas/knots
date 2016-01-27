@@ -25,9 +25,11 @@ app.controller('MainCtr', function ($scope, $http) {
     };
 
     $scope.remove = function (type, knot) {
-        $http.delete('/knots/' + knot.id, {}).then(function () {
-            getKnots($http, $scope);
-        });
+        if (confirm("Are you sure want to delete?")) {
+            $http.delete('/knots/' + knot.id, {}).then(function () {
+                getKnots($http, $scope);
+            });
+        }
     };
 
     $scope.edit = function (type, knot) {

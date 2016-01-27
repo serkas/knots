@@ -39,14 +39,14 @@
 
 <div class="row">
     <div class="col-lg-9 main">
-        <article ng-repeat="knot in knots">
-            <h3 class="title" ng-if="knot.title">{{ knot.title }}</h3>
+        <article class="knot" ng-repeat="knot in knots">
+            <h2 class="title" ng-if="knot.title">{{ knot.title }}</h2>
             <div marked="knots[$index]['raw']"></div>
 
-            <p>
+            <div class="knot-control">
                 <a ng-click="remove('knot', knot)">Remove</a> &nbsp;
                 <a ng-click="edit('knot', knot)" class="open-editor" data-toggle="modal" data-target="#editor">Edit</a>
-            </p>
+            </div>
         </article>
     </div>
     <div class="col-lg-3 side">
