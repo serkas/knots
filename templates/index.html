@@ -7,6 +7,7 @@
     <link href="/assets/css/main.css" rel="stylesheet" media="all">
 
     <script src="/assets/js/core/jquery-1.12.0.js"></script>
+    <script src="/assets/js/core/date.format.min.js"></script>
     <script src="/assets/bs/js/bootstrap.js"></script>
     <script src="/assets/md/simplemde.min.js"></script>
     <script src="/assets/md/marked.min.js"></script>
@@ -37,6 +38,10 @@
     <div class="col-lg-8 main">
         <article class="knot" ng-repeat="knot in knots">
             <h2 class="title title-link" ng-if="knot.title" ng-click="router('one', knot.id)">{{ knot.title }}</h2>
+            <div class="knot-control">
+                <span class="knot-info">{{ Tools.date(knot.created) }}</span>
+            </div>
+
             <div marked="Tools.cut(knots[$index]['raw'], 1000)"></div>
         </article>
     </div>
@@ -47,7 +52,8 @@
         <article class="knot" ng-if="knot">
             <h2 class="title" ng-if="knot.title">{{ knot.title }}</h2>
             <div class="knot-control">
-                <a ng-click="remove('knot', knot)">Remove</a> &nbsp;
+                <span class="knot-info">{{ Tools.date(knot.created) }}</span>
+                <a ng-click="remove('knot', knot)">Delete</a> &nbsp;
                 <a ng-click="edit('knot', knot)" class="open-editor" data-toggle="modal" data-target="#editor">Edit</a>
             </div>
 

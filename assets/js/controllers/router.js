@@ -2,7 +2,8 @@
  * Created by serhii on 1/29/16.
  */
 
-app.controller('RouterCtr', function ($scope, $http, $location) {
+app.controller('RouterCtr', function ($scope, $http, $location, Tools) {
+    $scope.Tools = Tools;
 
     $scope.router = function(action, id){
         $scope.routeAction = action;

@@ -16,5 +16,9 @@ app.factory('Tools', function () {
         return text;
     };
 
+    tools.date = function (ts) {
+        return new Date(ts * 1000).format('Y-m-d H:i:s');
+    };
+
     return tools;
 });
