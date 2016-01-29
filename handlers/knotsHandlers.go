@@ -38,21 +38,17 @@ func (env Env) UpdateKnot(c *gin.Context) {
 	var new models.Knot
 	var err error
 	err = c.BindJSON(&new)
-	if err == nil && new.Validate() {
-		collection := env.db.C("knots")
-		err = collection.UpdateId(mongoId, new)
+
+	if err != nil || !new.Validate() {
+		sendBadRequest(c, fmt.Errorf("invalid_data"))
+	} else {
+		err = new.Update(env.db, mongoId)
 		if err != nil {
 			sendError(c, err)
 		} else {
-			c.JSON(http.StatusOK, gin.H{
-				"status": true,
-			})
+			c.JSON(http.StatusOK, gin.H{"status": true})
 		}
-
-	} else {
-		sendBadRequest(c, fmt.Errorf("invalid_data"))
 	}
-
 }
 
 func (env Env) DeleteKnot(c *gin.Context) {
