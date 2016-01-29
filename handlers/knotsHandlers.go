@@ -59,19 +59,21 @@ func (env Env) DeleteKnot(c *gin.Context) {
 	id := c.Param("id")
 	if !bson.IsObjectIdHex(id) {
 		sendBadRequest(c, fmt.Errorf("id_not_valid"))
-	}
-	mongoId := bson.ObjectIdHex(id)
+	}else{
+		mongoId := bson.ObjectIdHex(id)
 
-	collection := env.db.C("knots")
-	err := collection.RemoveId(mongoId)
+		collection := env.db.C("knots")
+		err := collection.RemoveId(mongoId)
 
-	if err != nil {
-		sendError(c, err)
-	} else {
-		c.JSON(http.StatusOK, gin.H{
-			"status": true,
-		})
+		if err != nil {
+			sendError(c, err)
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"status": true,
+			})
+		}
 	}
+
 }
 
 func (env Env) AllKnot(c *gin.Context) {
@@ -86,4 +88,26 @@ func (env Env) AllKnot(c *gin.Context) {
 			"knots": result,
 		})
 	}
+}
+
+func (env Env) OneKnot(c *gin.Context) {
+	id := c.Param("id")
+	if !bson.IsObjectIdHex(id) {
+		sendBadRequest(c, fmt.Errorf("id_not_valid"))
+	}else {
+		mongoId := bson.ObjectIdHex(id)
+
+		collection := env.db.C("knots")
+		var result models.Knot
+		err := collection.FindId(mongoId).One(&result)
+		if err != nil {
+			sendError(c, err)
+		} else {
+			c.JSON(http.StatusOK, gin.H{
+				"status": true,
+				"knot": result,
+			})
+		}
+	}
+
 }
