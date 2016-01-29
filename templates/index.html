@@ -19,6 +19,7 @@
 
     <script src="/assets/js/theme.js"></script>
     <script src="/assets/js/app.js"></script>
+    <script src="/assets/js/services.js"></script>
     <script src="/assets/js/controllers/router.js"></script>
     <script src="/assets/js/controllers/one.js"></script>
 </head>
@@ -36,7 +37,7 @@
     <div class="col-lg-8 main">
         <article class="knot" ng-repeat="knot in knots">
             <h2 class="title title-link" ng-if="knot.title" ng-click="router('one', knot.id)">{{ knot.title }}</h2>
-            <div marked="knots[$index]['raw']"></div>
+            <div marked="Tools.cut(knots[$index]['raw'], 1000)"></div>
         </article>
     </div>
 </div>

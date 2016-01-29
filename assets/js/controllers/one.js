@@ -11,7 +11,7 @@ app.controller('OneCtr', function ($scope, $http) {
         $scope.knot.raw = editor.value();
         var knot = angular.copy($scope.knot);
         console.log(knot);
-        
+
         if (knot.id) {
             $http.put('/knots/' + knot.id, JSON.stringify(knot), postConfig).then(function () {
                 $scope.router('one', knot.id);
