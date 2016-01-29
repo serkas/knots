@@ -3,7 +3,6 @@
     background-color: #f2f2f2;
 }
 .head h1 {
-    color: brown;
     font-size: 28px;
     margin: 10px;
     cursor: pointer;
@@ -31,6 +30,10 @@ article.knot {
 }
 h2.title {
     font-size: 34px;
+    cursor: pointer;
+}
+.title-link:hover {
+    color: #888888;
 }
 .CodeMirror {
     width: 100%;

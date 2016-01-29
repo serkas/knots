@@ -15,73 +15,77 @@
     <script src="/assets/js/core/angular.min.js"></script>
     <script src="/assets/md/angular-marked.min.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate/2.8.1/angular-translate.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-sanitize.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-interpolation-messageformat/2.7.2/angular-translate-interpolation-messageformat.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-cookie/2.7.2/angular-translate-storage-cookie.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-storage-local/2.7.2/angular-translate-storage-local.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-url/2.7.2/angular-translate-loader-url.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-loader-static-files/2.7.2/angular-translate-loader-static-files.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-translate-handler-log/2.7.2/angular-translate-handler-log.js"></script>
-
+    <script src="/assets/js/core/angular-sanitize.js"></script>
 
     <script src="/assets/js/theme.js"></script>
     <script src="/assets/js/app.js"></script>
-
+    <script src="/assets/js/controllers/router.js"></script>
+    <script src="/assets/js/controllers/one.js"></script>
 </head>
 
-<body ng-controller="MainCtr"  class="ng-cloak">
-<div class="row">
+<body  ng-controller="RouterCtr"  class="ng-cloak">
+<div class="row" >
     <div class="col-lg-12 head">
-       <a href="/"><h1>Knots</h1></a>
+       <h1 ng-click="router('main')">Knots</h1>
+
+        <a ng-click="router('one', 'new')" class="open-editor" data-toggle="modal" data-target="#editor">New +</a>
     </div>
 </div>
 
-<div class="row">
-    <div class="col-lg-9 main">
+<div ng-controller="CollectionCtr" class="row" ng-show="isRoute('main')">
+    <div class="col-lg-8 main">
         <article class="knot" ng-repeat="knot in knots">
-            <h2 class="title" ng-if="knot.title">{{ knot.title }}</h2>
+            <h2 class="title title-link" ng-if="knot.title" ng-click="router('one', knot.id)">{{ knot.title }}</h2>
             <div marked="knots[$index]['raw']"></div>
+        </article>
+    </div>
+</div>
 
+<div ng-controller="OneCtr" class="row" ng-show="isRoute('one')">
+    <div class="col-lg-8 main">
+        <article class="knot" ng-if="knot">
+            <h2 class="title" ng-if="knot.title">{{ knot.title }}</h2>
             <div class="knot-control">
                 <a ng-click="remove('knot', knot)">Remove</a> &nbsp;
                 <a ng-click="edit('knot', knot)" class="open-editor" data-toggle="modal" data-target="#editor">Edit</a>
             </div>
+
+            <div marked="knot.raw"></div>
         </article>
     </div>
-    <div class="col-lg-3 side">
-        <a ng-click="empty()" class="open-editor" data-toggle="modal" data-target="#editor">Add New</a>
-    </div>
 
-</div>
+    <!-- Modal -->
+    <div id="editor" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-
-
-
-<!-- Modal -->
-<div id="editor" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">New Knot</h4>
-            </div>
-            <div class="modal-body row">
-                <div class="col-lg-12">
-                    <input type="text" ng-model="new.title">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Knot</h4>
                 </div>
-                <div class="col-lg-12">
-                    <textarea id="knot-editor" class="editor"></textarea>
+                <div class="modal-body row">
+                    <div class="col-lg-12">
+                        <input type="text" ng-model="knot.title">
+                    </div>
+                    <div class="col-lg-12">
+                        <textarea id="knot-editor" class="editor"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button ng-click="postNew()">Post</button>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button ng-click="postNew()">Post</button>
-            </div>
+
         </div>
-
     </div>
 </div>
+
+<div ng-controller="OneCtr" class="row" ng-show="isRoute('404')">
+    <div class="col-lg-8 main">
+        <h2>404 Not found</h2>
+    </div>
+</div>
+
 </body>
 </html>
