@@ -8,6 +8,9 @@ import (
 
 func main() {
 	r := gin.Default()
+	authorized := r.Group("", gin.BasicAuth(gin.Accounts{
+		"admin":    "admin",
+	}))
 
 	env := handlers.InitEnv()
 	defer env.Destroy()
@@ -18,10 +21,10 @@ func main() {
 	// Knots handlers
 	r.GET("/knots", env.AllKnot)
 	r.GET("/knots/:id", env.OneKnot)
-	r.POST("/knots", env.NewKnot)
-	r.PUT("/knots/:id", env.UpdateKnot)
-	r.DELETE("/knots/:id", env.DeleteKnot)
+	authorized.POST("/knots", env.NewKnot)
+	authorized.PUT("/knots/:id", env.UpdateKnot)
+	authorized.DELETE("/knots/:id", env.DeleteKnot)
 
-	r.Run(":8080")
+	r.Run(":8001")
 }
 
