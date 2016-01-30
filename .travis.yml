@@ -1,0 +1,13 @@
+language: go
+
+go_import_path: /knots
+
+go:
+  - 1.5
+
+before_script:
+  - ls -la
+
+install:
+  - go get gopkg.in/mgo.v2
+  - go get github.com/gin-gonic/gin
