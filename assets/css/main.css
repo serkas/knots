@@ -18,6 +18,11 @@ h1:hover {
     padding: 0 50px;
 }
 
+.head .menu > span:hover {
+    cursor: pointer;
+    color: #888888;
+}
+
 .main > article {
     margin: 10px 0 30px 0;
 }

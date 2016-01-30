@@ -28,9 +28,14 @@
 <body  ng-controller="RouterCtr"  class="ng-cloak">
 <div class="row" >
     <div class="col-lg-12 head">
-       <h1 ng-click="router('main')">Knots</h1>
-
-        <a ng-click="router('one', 'new')" class="open-editor" data-toggle="modal" data-target="#editor">New +</a>
+        <div class="row" >
+            <div class="col-lg-4 ">
+                <h1 ng-click="router('main')">Knots</h1>
+            </div>
+            <div class="col-lg-8 menu">
+                <span ng-click="router('one', 'new')" data-toggle="modal" data-target="#editor">New +</span>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -52,9 +57,9 @@
         <article class="knot" ng-if="knot">
             <h2 class="title" ng-if="knot.title">{{ knot.title }}</h2>
             <div class="knot-control">
-                <span class="knot-info">{{ Tools.date(knot.created) }}</span>
+                <span class="knot-info" ng-if="knot.created">{{ Tools.date(knot.created) }}</span>
                 <a ng-click="remove('knot', knot)">Delete</a> &nbsp;
-                <a ng-click="edit('knot', knot)" class="open-editor" data-toggle="modal" data-target="#editor">Edit</a>
+                <a ng-click="edit('knot', knot)" data-toggle="modal" data-target="#editor">Edit</a>
             </div>
 
             <div marked="knot.raw"></div>
