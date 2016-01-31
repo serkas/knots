@@ -5,7 +5,7 @@ import (
 )
 
 type Env struct {
-	db *mgo.Database
+	db      *mgo.Database
 	session *mgo.Session
 }
 
@@ -21,6 +21,6 @@ func InitEnv() *Env {
 	return &Env{db, session}
 }
 
-func (env Env) Destroy()  {
+func (env Env) Destroy() {
 	defer env.session.Close()
 }

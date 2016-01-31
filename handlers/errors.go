@@ -8,13 +8,13 @@ import (
 func sendError(c *gin.Context, err error) {
 	c.JSON(http.StatusInternalServerError, gin.H{
 		"status": false,
-		"error": err.Error(),
+		"error":  err.Error(),
 	})
 }
 
 func sendBadRequest(c *gin.Context, err error) {
 	c.JSON(http.StatusBadRequest, gin.H{
 		"status": false,
-		"error": err.Error(),
+		"error":  err.Error(),
 	})
 }

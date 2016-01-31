@@ -1,11 +1,11 @@
 package handlers
 
 import (
-	"net/http"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/mgo.v2/bson"
 	"knots/models"
-	"fmt"
+	"net/http"
 )
 
 func (env Env) NewKnot(c *gin.Context) {
@@ -20,7 +20,7 @@ func (env Env) NewKnot(c *gin.Context) {
 		} else {
 			c.JSON(http.StatusOK, gin.H{
 				"status": "posted",
-				"title": new.Title,
+				"title":  new.Title,
 			})
 		}
 	} else {
@@ -55,7 +55,7 @@ func (env Env) DeleteKnot(c *gin.Context) {
 	id := c.Param("id")
 	if !bson.IsObjectIdHex(id) {
 		sendBadRequest(c, fmt.Errorf("id_not_valid"))
-	}else{
+	} else {
 		mongoId := bson.ObjectIdHex(id)
 
 		collection := env.db.C("knots")
@@ -81,7 +81,7 @@ func (env Env) AllKnot(c *gin.Context) {
 	} else {
 		c.JSON(http.StatusOK, gin.H{
 			"status": true,
-			"knots": result,
+			"knots":  result,
 		})
 	}
 }
@@ -90,7 +90,7 @@ func (env Env) OneKnot(c *gin.Context) {
 	id := c.Param("id")
 	if !bson.IsObjectIdHex(id) {
 		sendBadRequest(c, fmt.Errorf("id_not_valid"))
-	}else {
+	} else {
 		mongoId := bson.ObjectIdHex(id)
 
 		collection := env.db.C("knots")
@@ -101,7 +101,7 @@ func (env Env) OneKnot(c *gin.Context) {
 		} else {
 			c.JSON(http.StatusOK, gin.H{
 				"status": true,
-				"knot": result,
+				"knot":   result,
 			})
 		}
 	}

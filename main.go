@@ -5,11 +5,10 @@ import (
 	"knots/handlers"
 )
 
-
 func main() {
 	r := gin.Default()
 	authorized := r.Group("", gin.BasicAuth(gin.Accounts{
-		"admin":    "admin",
+		"admin": "admin",
 	}))
 
 	env := handlers.InitEnv()
@@ -27,4 +26,3 @@ func main() {
 
 	r.Run(":8001")
 }
-

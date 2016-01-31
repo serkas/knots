@@ -1,17 +1,17 @@
 package models
 
 import (
-	"time"
-	"gopkg.in/mgo.v2/bson"
 	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
+	"time"
 )
 
 type Knot struct {
 	Id       bson.ObjectId `json:"id"        bson:"_id,omitempty"`
-	Raw      string `json:"raw"`
-	Title    string `json:"title"`
-	Created  int64 `json:"created"`
-	Modified int64 `json:"modified"`
+	Raw      string        `json:"raw"`
+	Title    string        `json:"title"`
+	Created  int64         `json:"created"`
+	Modified int64         `json:"modified"`
 }
 
 func (knot Knot) Validate() bool {
