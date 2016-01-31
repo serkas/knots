@@ -13,7 +13,5 @@ install:
   - go get github.com/gin-gonic/gin
 
 after_success:
-  - go build
-  - zip dist.zip knots templates assets
-  - ls -la
-  
+  - zip dist.zip models handlers main.go templates assets
+  - scp dist.zip serhii@188.226.137.169:~/go/dist
