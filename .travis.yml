@@ -14,5 +14,5 @@ install:
 
 after_success:
   - zip dist.zip models handlers main.go templates assets
-  -ls -al
+  - ls -al
   - scp -o stricthostkeychecking=no ./dist.zip serhii@188.226.137.169:~/go/dist
