@@ -11,3 +11,9 @@ before_script:
 install:
   - go get gopkg.in/mgo.v2
   - go get github.com/gin-gonic/gin
+
+after_success:
+  - go build
+  - zip dist.zip knots templates assets
+  - ls -la
+  
